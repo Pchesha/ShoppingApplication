@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ILoveZappos</string>
+    <string name="action_search">menu_search</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="shopLabel">What do you want to buy today?</string>
+    <string name="noSearchFound">Oops No Items Match Your Search</string>
+    <string name="menu_cart">Cart</string>
+    <string name="noOfItemsInCart">number of items in cart</string>
+    <string name="shoe">Shoe</string>
+    <string name="bag">Bags</string>
+    <string name="watch">Watches</string>
+    <string name="other">What\'s on your mind?</string>
+    <string name="Search">Search</string>
+</resources>
