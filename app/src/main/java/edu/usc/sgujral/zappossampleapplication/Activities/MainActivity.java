@@ -32,9 +32,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements SearchResponseListener,View.OnClickListener , GridViewAdapter.ItemClickedListener{
     private SearchResponseListener searchResponseListener;
     private Toolbar toolbar;
-    private FrameLayout shoeFrameLayout;
-    private FrameLayout bagFrameLayout;
-    private FrameLayout watchFrameLayout;
     private Button searchButton;
     private EditText searchEditText;
     private boolean isSearched= false;
