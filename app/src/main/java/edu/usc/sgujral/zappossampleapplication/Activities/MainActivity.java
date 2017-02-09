@@ -59,6 +59,11 @@ public class MainActivity extends AppCompatActivity implements SearchResponseLis
 
         setToolbar();
 
+
+        searchResponseListener= this;
+        itemClickedListener = this;
+        searchButton.setOnClickListener(this);
+
         gridItems= new ArrayList<GridItem>();
         gridItems.add(new GridItem("Shoes", R.drawable.shoes_label));
         gridItems.add(new GridItem("Bags",R.drawable.bags_label));
@@ -66,12 +71,6 @@ public class MainActivity extends AppCompatActivity implements SearchResponseLis
         gridItems.add(new GridItem("Clothing",R.drawable.clothing_label));
         gridViewAdapter= new GridViewAdapter(this, gridItems, itemClickedListener);
         gridView.setAdapter(gridViewAdapter);
-
-
-        searchResponseListener= this;
-        itemClickedListener = this;
-        searchButton.setOnClickListener(this);
-
 
     }
     private void setToolbar() {
