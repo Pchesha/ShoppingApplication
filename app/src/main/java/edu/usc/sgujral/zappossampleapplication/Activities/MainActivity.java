@@ -2,26 +2,23 @@ package edu.usc.sgujral.zappossampleapplication.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.GridView;
 
 import java.util.ArrayList;
 
-import edu.usc.sgujral.zappossampleapplication.Adapters.ProductItemAdapter;
+import edu.usc.sgujral.zappossampleapplication.Adapters.GridViewAdapter;
+import edu.usc.sgujral.zappossampleapplication.JavaBeanClasses.GridItem;
 import edu.usc.sgujral.zappossampleapplication.JavaBeanClasses.ProductItem;
 import edu.usc.sgujral.zappossampleapplication.JavaBeanClasses.SearchResult;
 import edu.usc.sgujral.zappossampleapplication.R;
@@ -29,145 +26,114 @@ import edu.usc.sgujral.zappossampleapplication.webservices.SearchResponseListene
 import edu.usc.sgujral.zappossampleapplication.webservices.SearchResultTask;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements SearchResponseListener, ProductItemAdapter.MyClickListener {
-
-    private Toolbar toolbar;
+/**
+ * Created by sunakshigujral on 2/4/17.
+ */
+public class MainActivity extends AppCompatActivity implements SearchResponseListener,View.OnClickListener , GridViewAdapter.ItemClickedListener{
     private SearchResponseListener searchResponseListener;
-    private ArrayList<ProductItem> productItems;
-    private ProductItemAdapter productItemAdapter;
-    private ProductItemAdapter.MyClickListener myClickListener;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
-    private SearchView searchView;
-    private LinearLayout linearLayout;
-    private TextView textView;
-    private String title;
+    private Toolbar toolbar;
+    private FrameLayout shoeFrameLayout;
+    private FrameLayout bagFrameLayout;
+    private FrameLayout watchFrameLayout;
+    private Button searchButton;
+    private EditText searchEditText;
+    private boolean isSearched= false;
+    private GridViewAdapter gridViewAdapter;
+    private GridViewAdapter.ItemClickedListener itemClickedListener;
+    private ArrayList<GridItem> gridItems;
+    private GridView gridView;
+    private String searchString =null;
+    private Context context;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+        context= this;
 
-        linearLayout = (LinearLayout) findViewById(R.id.labelLinearLayout);
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        textView = (TextView) findViewById(R.id.alertTextView);
-
-        productItems= (ArrayList<ProductItem>) this.getIntent().getSerializableExtra("productList");
-        title = this.getIntent().getStringExtra("title");
+        searchButton= (Button) findViewById(R.id.search_btn);
+        searchEditText= (EditText) findViewById(R.id.search_text_view);
+        gridView = (GridView) findViewById(R.id.productGridView);
 
         setToolbar();
 
+        gridItems= new ArrayList<GridItem>();
+        gridItems.add(new GridItem("Shoes", R.drawable.shoes_label));
+        gridItems.add(new GridItem("Bags",R.drawable.bags_label));
+        gridItems.add(new GridItem("Watches",R.drawable.watches_label));
+        gridItems.add(new GridItem("Clothing",R.drawable.clothing_label));
+        gridViewAdapter= new GridViewAdapter(this, gridItems, itemClickedListener);
+        gridView.setAdapter(gridViewAdapter);
+
+
         searchResponseListener= this;
-        myClickListener= this;
+        itemClickedListener = this;
+        searchButton.setOnClickListener(this);
 
-        productItemAdapter = new ProductItemAdapter(this, productItems, myClickListener);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        recyclerView.setAdapter(productItemAdapter);
+    }
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
     }
 
-    private void setToolbar() {
 
-        //toolbar.setTitle("ILoveZappos");
-        if(title!=null)
-            toolbar.setTitle(title);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar= this.getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    @Override
+    public void onClick(View v) {
 
-        actionBar.setHomeButtonEnabled(true);
+        int id = v.getId();
+
+        switch (id){
+            case R.id.search_btn: isSearched= true;
+                displaySearchResults(searchEditText.getText().toString());
+                break;
+        }
     }
 
     @Override
     public void onSearchResponse(Response<SearchResult> response) {
-        Log.d("Result in Main", response.toString());
-        Log.d("Result in Main", ""+response.body().getSearchedItems().size());
-        Log.d("Result in Main", response.body().getSearchedItems().get(0).getBrandName());
-        productItems = response.body().getSearchedItems();
-        //productGridViewAdapter.update(productItems);
-        productItemAdapter.update(productItems);
+       ArrayList<ProductItem> productItems = response.body().getSearchedItems();
+        if(productItems.size()>0) {
+            if (isSearched) {
+                isSearched = false;
 
-        if(productItems.size()>0){
-            linearLayout.setVisibility(View.GONE);
-        }
-        else{
-            textView.setText(getResources().getString(R.string.noSearchFound));
-        }
+                Intent intent = new Intent(this, ProductViewActivity.class);
+                intent.putExtra("product", productItems.get(0));
+                this.startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, ProductListActivity.class);
+                intent.putExtra("productList", productItems);
+                intent.putExtra("title", searchString);
+                this.startActivity(intent);
+            }
+        }   else{
+                new AlertDialog.Builder(context)
+                        .setTitle("Alert")
+                        .setMessage(context.getResources().getString(R.string.noSearchFound))
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+
+    }
+
+    private void displaySearchResults(String s) {
+        searchString = s;
+        SearchResultTask.getSearchResult(this,searchResponseListener, s);
     }
 
     @Override
-    public void onItemClick(int position) {
-
-        Intent intent= new Intent(this, ProductViewActivity.class);
-        intent.putExtra("product",productItems.get(position));
-        this.startActivity(intent);
+    public void onFoodCategoryClicked(int position) {
+        displaySearchResults(gridItems.get(position).getName());
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        MenuItem searchItem = menu.findItem(R.id.action_search);
-//
-//        //Hide keypad
-//        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-////            searchView.clearFocus();
-////            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-////            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-//
-//        //Query change listener for searchview
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                displaySearchResults(s);
-//                searchView.clearFocus();
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                // queryChangeListener.onQueryChanged(s);
-//                return false;
-//            }
-//        });
-//
-//        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-//            @Override
-//            public boolean onClose() {
-//                return false;
-//            }
-//        });
-//        return true;
-//    }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if(searchView!=null){
-//            searchView.clearFocus();
-//            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-//        }
-//    }
-//
-//
-//    private void displaySearchResults(String s) {
-//        Log.d("Searching","");
-//        SearchResultTask.getSearchResult(this,searchResponseListener, s);
-//    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-
+    protected void onResume() {
+        super.onResume();
+        if(searchEditText!=null) {
+            searchEditText.clearFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
         }
-        return super.onOptionsItemSelected(item);
-
     }
-
-
 }

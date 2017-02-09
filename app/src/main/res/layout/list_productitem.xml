@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="edu.usc.sgujral.zappossampleapplication.R" />
@@ -11,55 +11,53 @@
             type="edu.usc.sgujral.zappossampleapplication.JavaBeanClasses.ProductItem" />
     </data>
 
-<LinearLayout
-
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        card_view:cardCornerRadius="3dp">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <FrameLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="3dp">
 
-            <ImageView
-                android:id="@+id/foodImageView"
-                app:imageUrl="@{product.itemImageUrl}"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:scaleType="fitXY" />
+                android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingBottom="2dp"
-                android:background="@color/greyBackground"
-                android:paddingTop="2dp">
+                <ImageView
+                    android:id="@+id/productImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:scaleType="fitXY"
+                    app:imageUrl="@{product.itemImageUrl}" />
 
-                <TextView
-                    android:id="@+id/foodNameTextView"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{product.brandName}"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/white"/>
+                    android:layout_gravity="bottom"
+                    android:background="@color/greyBackground"
+                    android:orientation="vertical"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="2dp">
+
+                    <TextView
+                        android:id="@+id/productNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{product.brandName}"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
 
 
-            </LinearLayout>
-        </FrameLayout>
-    </android.support.v7.widget.CardView>
-
-
-</LinearLayout>
-    </layout>
+    </LinearLayout>
+</layout>

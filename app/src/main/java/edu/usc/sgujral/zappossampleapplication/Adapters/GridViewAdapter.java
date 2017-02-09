@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import edu.usc.sgujral.zappossampleapplication.JavaBeanClasses.GridItem;
-import edu.usc.sgujral.zappossampleapplication.JavaBeanClasses.ProductItem;
 import edu.usc.sgujral.zappossampleapplication.R;
 
 /**
@@ -55,8 +54,8 @@ public class GridViewAdapter extends BaseAdapter{
         TextView textView;
         ImageView imageView;
 
-        imageView=(ImageView) convertView.findViewById(R.id.grid_name_imageview);
-        textView=(TextView) convertView.findViewById(R.id.grid_name_textview);
+        imageView=(ImageView) convertView.findViewById(R.id.productImageview);
+        textView=(TextView) convertView.findViewById(R.id.productNameTextview);
 
         if(myDataset.get(position).getImageID()!= 0){
             imageView.setImageResource(myDataset.get(position).getImageID());

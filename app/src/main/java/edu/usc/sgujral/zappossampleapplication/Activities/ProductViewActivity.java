@@ -31,29 +31,27 @@ public class ProductViewActivity extends AppCompatActivity {
     private Animation animate_fab;
     private FloatingActionButton fab;
     private static int count=0;
-    SharedPreferences sharedPref;
+    private SharedPreferences sharedPref;
     private TextView discountperentTextView;
     private TextView originalPriceTextView;
-
+    private Toolbar toolbar;
+    private ProductItem product;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //setContentView(R.layout.activity_product_view);
         ActivityProductViewBinding binding= DataBindingUtil.setContentView(this, R.layout.activity_product_view);
         context= this;
-        ProductItem product= (ProductItem) this.getIntent().getSerializableExtra("product");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        product= (ProductItem) this.getIntent().getSerializableExtra("product");
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         discountperentTextView = (TextView) findViewById(R.id.productPercentOff);
         originalPriceTextView= (TextView) findViewById(R.id.productOriginalPrice);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+
         animate_fab = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_anim);
-        toolbar.setTitle(product.getBrandName()+" "+ product.getProductName());
-        setSupportActionBar(toolbar);
-        ActionBar actionBar= this.getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        setToolbar();
+
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         binding.setProduct(product);
 
         char [] discountpercent = product.getPercentOff().toCharArray();
@@ -64,6 +62,7 @@ public class ProductViewActivity extends AppCompatActivity {
         else{
             originalPriceTextView.setPaintFlags(originalPriceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +78,14 @@ public class ProductViewActivity extends AppCompatActivity {
             }
         });
     }
+
+   private void setToolbar(){
+       toolbar.setTitle(product.getBrandName()+" "+ product.getProductName());
+       setSupportActionBar(toolbar);
+       ActionBar actionBar= this.getSupportActionBar();
+       actionBar.setDisplayHomeAsUpEnabled(true);
+       actionBar.setHomeButtonEnabled(true);
+   }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

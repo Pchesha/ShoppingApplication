@@ -18,11 +18,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activities.MainActivity" android:theme="@style/MyAppTheme">
+        <activity android:name=".Activities.ProductListActivity" android:theme="@style/MyAppTheme">
 
         </activity>
 
-        <activity android:name=".Activities.MainActivityFirst" android:theme="@style/MyAppTheme">
+        <activity android:name=".Activities.MainActivity" android:theme="@style/MyAppTheme"
+            android:windowSoftInputMode="stateHidden">
 
         </activity>
 

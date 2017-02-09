@@ -4,13 +4,13 @@
     android:layout_height="@dimen/activity_main_image_size">
 
     <ImageView
-        android:id="@+id/grid_name_imageview"
+        android:id="@+id/productImageview"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_main_image_size"
         android:scaleType="fitXY" />
 
     <TextView
-        android:id="@+id/grid_name_textview"
+        android:id="@+id/productNameTextview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

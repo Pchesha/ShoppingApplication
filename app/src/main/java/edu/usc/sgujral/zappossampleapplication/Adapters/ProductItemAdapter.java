@@ -33,7 +33,6 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
     private MyClickListener myClickListener;
     private Context context;
 
-
     public ProductItemAdapter(Context context, ArrayList<ProductItem> foodItems, MyClickListener myClickListener) {
         this.context = context;
         this.mDataset = foodItems;
@@ -55,19 +54,8 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             ProductItem productItem = mDataset.get(position);
             holder.getBinding().setVariable(BR.product, productItem);
             holder.getBinding().executePendingBindings();
-
-            // if (mDataset.get(position).getBrandName() != null && !(mDataset.get(position).getBrandName()).equals("")) {
-//                holder.itemName.setText(mDataset.get(position).getBrandName());
-//                final String url = mDataset.get(position).getItemImageUrl();
-//                mImageLoader.get(url, ImageLoader.getImageListener(holder.mNetworkImageView,
-//                        R.mipmap.ic_launcher, android.R.drawable
-//                                .ic_dialog_alert));
-//                holder.mNetworkImageView.setImageUrl(url,mImageLoader);
-
-            //}
         }
     }
-
 
     @Override
     public int getItemCount() {

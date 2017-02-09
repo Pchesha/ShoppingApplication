@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="edu.usc.sgujral.zappossampleapplication.R" />
+
         <variable
             name="product"
             type="edu.usc.sgujral.zappossampleapplication.JavaBeanClasses.ProductItem" />
@@ -47,63 +49,64 @@
                 android:layout_below="@id/productImage"
                 android:background="@{product.color}" />
 
-        <RelativeLayout
-            android:layout_below="@id/productColor"
-            android:layout_width="match_parent"
-            android:background="@color/greyBackground"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/product_details_layout_margin">
-
-            <TextView
-                android:id="@+id/productBrandName"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{product.brandName}"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:layout_below="@id/productColor"
+                android:background="@color/greyBackground"
+                android:padding="@dimen/product_details_layout_margin">
 
-            <TextView
-                android:layout_marginTop="10dp"
-                android:id="@+id/productName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/productBrandName"
-                android:text="@{product.productName}"
-                android:textSize="18sp" />
-
-
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@id/productName">
                 <TextView
-                    android:id="@+id/productDiscountedPrice"
+                    android:id="@+id/productBrandName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:text="@{product.discountedPrice}"
+                    android:text="@{product.brandName}"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/productName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/productBrandName"
+                    android:layout_marginTop="10dp"
+                    android:text="@{product.productName}"
                     android:textSize="18sp" />
 
 
-            <TextView
-                android:id="@+id/productPercentOff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-android:layout_marginLeft="10dp"
-                android:text="@{product.percentOff}"
-                android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/productOriginalPrice"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@{product.originalPrice}"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                    android:layout_below="@id/productName"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/productDiscountedPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{product.discountedPrice}"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/productPercentOff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@{product.percentOff}"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/productOriginalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@{product.originalPrice}"
+                        android:textSize="18sp" />
+                </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
 
